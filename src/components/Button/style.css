@@ -1,0 +1,40 @@
+.container{
+    width: 138px;
+height: 25px;
+border-radius: 5px;
+background-color: white;
+}
+
+.large-container{
+    width: 151px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: white;
+    align-items: center;
+    text-align: center;
+}
+
+.sb-flexbox{
+    padding-left: 11px;
+    padding-top: 5px;
+    display: flex;
+    width: 117px;
+    justify-content: space-between;
+    font-size: 11px;
+
+    
+}
+
+.bb-box{
+    padding-top: 15px;
+    font-size: 20px;
+    font-family: DUNNU;
+    font-weight: 900;
+
+}
+
+.button-name{
+line-height: 15px;
+font-family: Brandon Text;
+
+}

@@ -1,33 +1,80 @@
-.App {
-  text-align: center;
+App{
+
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.gray-container{
+  width: 369px;
+height: 696px;
+margin-left: 21px;
+margin-top: 18px;
+
+background: #F2F2F2;
+border-radius: 10px
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-flexbox{
+  display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
+padding-top: 63px;
+height: 559px;
+
+}
+
+.header{
+font-family: DUNNU;
+font-size: 40px;
+}
+
+.upper-buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 310px;
+}
+
+.timer-flexbox{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 303px;
+
 }
 
-.App-link {
-  color: #61dafb;
+.timer{
+
+font-family: DUNNU;
+font-size: 96px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.timer-bar{
+  width: 303px;
+height: 7px;
+background: #E35252;
+}
+
+.lower-buttons{
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  justify-content: space-between;
+}
+.lower-btn-row1{
+  display: flex;
+  justify-content: space-between;
+  width: 325px;
+}
+
+.lower-btn-row2{
+  display: flex;
+justify-content: center
+}
+
+.stats{
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  justify-content: space-between;
 }
