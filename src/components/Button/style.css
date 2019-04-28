@@ -38,3 +38,17 @@ line-height: 15px;
 font-family: Brandon Text;
 
 }
+
+.green-text{
+    color: #7EC547;
+}
+
+.white-text{
+    color: white;
+}
+.yellow-text{
+    color: #FFE34F;
+}
+.red-button{
+    background-color: #E35959
+}
