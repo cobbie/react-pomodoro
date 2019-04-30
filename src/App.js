@@ -8,12 +8,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: { minutes: 10, seconds: 0 },
+      time: { minutes: 25, seconds: 0 },
       running: false
     };
     this.intervals = 0;
     this.timeElapsed = 0;
-    this.minutes = 0;
+    this.interval = 25;
+    this.break = 5;
     this.seconds = 0;
     this.timerID = 0;
   }
@@ -22,30 +23,50 @@ class App extends Component {
     this.setState({
       running: true
     });
-    this.timerID = setInterval(() => this.tick(), 1000);
   };
 
   pauseTimer = () => {
+    
     this.setState({
       running: false
     });
-    clearInterval(this.timerID);
 
   };
 
-  componentDidMount =() => {
+  restartTime = () => {
+    
+    this.pauseTimer();
+    this.setState({
+      time: {minutes: this.interval, seconds: 0}
+    })
+    if(this.state.running === true){
+      this.startTimer();
+    }
+    
+
+  }
+
+  setInterval = () => {
+    const newInterval = prompt("Set new interval time (mins): ")
+    this.interval = newInterval;
+  }
+
+  setBreakTime = () => {
+    const newBreak = prompt("Set new break time (mins): ")
+    this.break = newBreak;
+  }
+
+  componentDidUpdate = () => {
     if (this.state.running === true) {
       this.timerID = setInterval(() => this.tick(), 1000);
     }
+
   }
 
-  componentWillUnmount = () => {
+  componentWillUpdate = () => {
     clearInterval(this.timerID);
   }
 
-  
-
-  
   tick = () => {
     let currentSec = this.state.time.seconds;
     let currentMin = this.state.time.minutes;
@@ -111,12 +132,13 @@ class App extends Component {
                 buttonName="SET INTERVAL TIME"
                 isSmall={true}
                 containsDropdown={true}
-                onClickDo={() => this.renderDropdown(true)}
+                onClick={this.setInterval}
               />
               <Button
                 buttonName="SET BREAK TIME"
                 isSmall={true}
                 containsDropdown={true}
+                onClick={this.setBreakTime}
               />
             </div>
             <div className="timer-flexbox">
@@ -133,6 +155,7 @@ class App extends Component {
                   isSmall={false}
                   containsDropdown={false}
                   isYellow={true}
+                  onClick={this.restartTime}
                 />
               </div>
               <div className="lower-btn-row2">
