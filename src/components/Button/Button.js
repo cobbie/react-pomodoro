@@ -29,7 +29,7 @@ const Button = props => {
       "bb-box": !props.isSmall
   })
   return (
-    <div className={buttonContainer}>
+    <div className={buttonContainer} onClick={props.onClickDo}>
       <div className={textBox}>
         <div className={buttonText}>{props.buttonName}</div>
         {renderDropdown(props.containsDropdown)}

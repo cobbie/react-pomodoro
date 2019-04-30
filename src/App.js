@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Button from "./components/Button/Button";
 import Stat from "./components/Stat/Stat";
+import Dropdown from "./components/Dropdown/Dropdown"
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +31,13 @@ class App extends Component {
     );
   };
 
+  renderDropdown = (bool) => {
+    console.log('asdfg');
+    return(
+      <Dropdown intervalTime={bool}/>
+    )
+  }
+
   render() {
     return (
       <div className="App">
@@ -41,6 +49,7 @@ class App extends Component {
                 buttonName="SET INTERVAL TIME"
                 isSmall={true}
                 containsDropdown={true}
+                onClickDo={() => this.renderDropdown(true)}
               />
               <Button
                 buttonName="SET BREAK TIME"

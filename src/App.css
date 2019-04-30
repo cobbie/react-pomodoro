@@ -18,7 +18,7 @@ flex-direction: column;
 justify-content: space-between;
 align-items: center;
 padding-top: 63px;
-height: 559px;
+height: 600px;
 
 }
 
@@ -72,7 +72,6 @@ justify-content: center
 }
 
 .stats{
-  padding-top: 10px;
   display: flex;
   flex-direction: column;
   height: 50px;
