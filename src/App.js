@@ -30,7 +30,6 @@ class App extends Component {
     this.setState({
       running: false
     });
-
   };
 
   restartTime = () => {
