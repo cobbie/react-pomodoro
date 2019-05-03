@@ -9,7 +9,7 @@ class App extends Component {
     super(props);
     this.state = {
       time: { minutes: 25, seconds: 0 },
-      running: false
+      running: false,
     };
     this.intervals = 0;
     this.timeElapsed = 0;
@@ -33,16 +33,18 @@ class App extends Component {
   };
 
   restartTime = () => {
-    
-    this.pauseTimer();
     this.setState({
       time: {minutes: this.interval, seconds: 0}
     })
-    if(this.state.running === true){
-      this.startTimer();
-    }
     
+    }
+  
 
+  stopTime = () => {
+    this.setState({
+      running: false,
+      time: {minutes: this.interval, seconds: 0}
+    });
   }
 
   setInterval = () => {
@@ -164,6 +166,7 @@ class App extends Component {
                   isSmall={false}
                   isWhite={true}
                   containsDropdown={false}
+                  onClick={this.stopTime}
                 />
               </div>
             </div>

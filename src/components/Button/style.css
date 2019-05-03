@@ -3,6 +3,7 @@
 height: 25px;
 border-radius: 5px;
 background-color: white;
+cursor: pointer;
 }
 
 .large-container{
@@ -12,6 +13,7 @@ background-color: white;
     background-color: white;
     align-items: center;
     text-align: center;
+    cursor: pointer;
 }
 
 .sb-flexbox{
@@ -50,5 +52,6 @@ font-family: Brandon Text;
     color: #FFE34F;
 }
 .red-button{
-    background-color: #E35959
+    background-color: #E35959;
+    cursor: pointer;
 }
