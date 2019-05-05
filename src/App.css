@@ -22,6 +22,10 @@ height: 600px;
 
 }
 
+.work-mode{
+/* color: #49A7DC; */
+color: #E35252;
+}
 .header{
 font-family: DUNNU;
 font-size: 40px;
@@ -76,4 +80,16 @@ justify-content: center
   flex-direction: column;
   height: 50px;
   justify-content: space-between;
+}
+
+i{
+  background-size: 5px 10px;
+}
+
+.timer-bar{
+  display: grid;
+  margin-top: 410px;
+  margin-left: 25px;
+  position: absolute;
+  width: 303px
 }

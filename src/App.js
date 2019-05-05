@@ -3,49 +3,42 @@ import "./App.css";
 import Button from "./components/Button/Button";
 import Stat from "./components/Stat/Stat";
 import Dropdown from "./components/Dropdown/Dropdown";
+import TimerBar from "./components/TimerBar/TimerBar"
+
+
+// const TimerBar = styled.div`
+
+//  margin-top: 410px;
+//  margin-left: 32px;
+//  background: #E35252;
+//  position: absolute;
+//  height: 7px;
+//  width: ${props => props.width};`;
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: { minutes: 25, seconds: 0 },
+      time: { minutes: 2, seconds: 0 },
       running: false,
     };
-    this.intervals = 0;
-    this.timeElapsed = 0;
-    this.interval = 25;
+    this.mode = true;
+    this.intervalCount = 0;
+    this.interval = 2;
     this.break = 5;
     this.seconds = 0;
     this.timerID = 0;
+    this.timeElapsed = "0h 0m 0s";
+    this.hoursElapsed = 0;
+    this.minutesElapsed = 0;
+    this.secondsElapsed = 0
   }
 
-  startTimer = () => {
-    this.setState({
-      running: true
-    });
-  };
-
-  pauseTimer = () => {
-    
-    this.setState({
-      running: false
-    });
-  };
-
-  restartTime = () => {
-    this.setState({
-      time: {minutes: this.interval, seconds: 0}
-    })
-    
-    }
-  
-
-  stopTime = () => {
-    this.setState({
-      running: false,
-      time: {minutes: this.interval, seconds: 0}
-    });
-  }
+  startTimer = () => {this.setState({running: true})};
+  pauseTimer = () => {this.setState({running: false});};
+  restartTime = () => {this.setState({time: {minutes: this.interval, seconds: 0}})};
+  stopTime = () => {this.setState({running: false, time: {minutes: this.interval, seconds: 0}});};
 
   setInterval = () => {
     const newInterval = prompt("Set new interval time (mins): ")
@@ -57,15 +50,38 @@ class App extends Component {
     this.break = newBreak;
   }
 
-  componentDidUpdate = () => {
-    if (this.state.running === true) {
-      this.timerID = setInterval(() => this.tick(), 1000);
-    }
 
-  }
+  componentDidUpdate = () => {
+    if (this.state.running) {
+      this.timerID = setInterval(() => this.tick(), 1000);
+      this.secondsElapsed += 1;
+        if(this.minutes===60){
+          this.hoursElapsed +=1;
+          this.minutesElapsed = 0;
+        }
+        if (this.secondsElapsed===60){
+          this.minutesElapsed+=1;
+          this.secondsElapsed = 0;
+        }
+      this.timeElapsed = this.hoursElapsed +"h " + this.minutesElapsed +"m " + this.secondsElapsed + "s";
+      }
+    }
 
   componentWillUpdate = () => {
     clearInterval(this.timerID);
+    if(this.state.time.seconds===0 && this.state.time.minutes===0){
+      this.intervalCount += 1;
+      this.setState({
+        time: {minutes: this.break, seconds: 0}
+      });
+      this.mode=false;
+    }
+    
+
+  }
+
+  componentDidMount =() =>{
+
   }
 
   tick = () => {
@@ -73,7 +89,8 @@ class App extends Component {
     let currentMin = this.state.time.minutes;
     let newMin = false;
 
-    if (currentSec === 0) {
+
+    if (currentSec === 0 && currentMin!==0) {
       currentSec = 59;
       newMin = true;
     } else {
@@ -86,14 +103,20 @@ class App extends Component {
     this.setState({
       time: { minutes: currentMin, seconds: currentSec }
     });
+
   };
 
-  displayProperZero = () => {
-    if (this.state.time.seconds < 10) {
-      return "0" + this.state.time.seconds.toString();
-    }
-    return <span>{this.state.time.seconds}</span>;
-  };
+  totalWorkingTime = () => {
+    this.timeElapsed = this.hoursElapsed +"h" + this.minutes +"m" + this.secondsElapsed + "s";
+  }
+
+  displayTime = () => {
+    return <span>{
+      this.state.time.minutes < 10 ? "0" + this.state.time.minutes.toString() : this.state.time.minutes
+    }:
+    {
+      this.state.time.seconds < 10 ? "0" + this.state.time.seconds.toString(): this.state.time.seconds}
+      </span>};
 
   startOrStop = arg => {
     if (arg === false) {
@@ -122,12 +145,26 @@ class App extends Component {
     return <Dropdown intervalTime={bool} />;
   };
 
+  renderMode = () => {
+    return(
+      <h1 className={require('classnames')({"work-mode": this.mode, "break-mode": !this.mode})}>{this.mode ? "WORK" : "BREAK"}</h1>
+      )
+  }
+
+  calcBarLength = () => {
+    return (303 - (303  * (this.secondsElapsed / (this.interval* 60)))).toString() + "px";
+  }
+ 
   render() {
+  
     return (
       <div className="App">
         <div className="gray-container">
+        <TimerBar width={this.calcBarLength()} />
+        {/* <TimerBar secondsElapsed={this.secondsElapsed} interval={this.interval} /> */}
           <div className="main-flexbox">
             <div className="header">POMODORO TIMER</div>
+            {this.renderMode()}
             <div className="upper-buttons">
               <Button
                 buttonName="SET INTERVAL TIME"
@@ -144,9 +181,10 @@ class App extends Component {
             </div>
             <div className="timer-flexbox">
               <div className="timer">
-                {this.state.time.minutes}:{this.displayProperZero()}
+                {this.displayTime()}
               </div>
-              <div className="timer-bar" />
+              {/* <div className="timer-bar" /> */}
+              {/* <div className="timer-svg"><img src={redRec} /></div> */}
             </div>
             <div className="lower-buttons">
               <div className="lower-btn-row1">
@@ -171,7 +209,7 @@ class App extends Component {
               </div>
             </div>
             <div className="stats">
-              <Stat statName="Intervals Completed" stat={this.intervals} />
+              <Stat statName="Intervals Completed" stat={this.intervalCount} />
               <Stat statName="Total Working Time" stat={this.timeElapsed} />
             </div>
           </div>
