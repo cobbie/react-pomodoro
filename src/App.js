@@ -9,15 +9,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: { minutes: 2, seconds: 0 },
+      time: { minutes: 1, seconds: 0 },
       running: false,
     };
     this.mode = true;
     this.intervalCount = 0;
-    this.currentWorkingInterval = 2;
+    this.currentWorkingInterval = 1;
     this.currentWorkingSecondsElapsed = 0;
-    this.interval = 2;
-    this.break = 5;
+    this.interval = 1;
+    this.break = 1;
     this.seconds = 0;
     this.timerID = 0;
     this.timeElapsed = "0h 0m 0s";
@@ -53,7 +53,7 @@ class App extends Component {
 
   componentDidUpdate = () => {
     if (this.state.running) {
-      this.timerID = setInterval(() => this.tick(), 1000);
+      this.timerID = setInterval(() => this.tick(), 100);
       this.secondsElapsed += 1;
       this.currentWorkingSecondsElapsed += 1;
         if(this.minutes===60){
@@ -64,18 +64,28 @@ class App extends Component {
           this.minutesElapsed+=1;
           this.secondsElapsed = 0;
         }
-      this.timeElapsed = this.hoursElapsed +"h " + this.minutesElapsed +"m " + this.secondsElapsed + "s";
+      this.timeElapsed = this.hoursElapsed + "h " + this.minutesElapsed +"m " + this.secondsElapsed + "s";
       }
     }
 
   componentWillUpdate = () => {
     clearInterval(this.timerID);
     if(this.state.time.seconds===0 && this.state.time.minutes===0){
-      this.intervalCount += 1;
-      this.setState({
+      if (this.mode){
+        this.intervalCount += 1;
+        this.setState({
         time: {minutes: this.break, seconds: 0}
       });
-      this.mode=false;
+        this.mode=false;
+      }
+      else{
+        this.mode=true;
+        this.setState({
+          time: {minutes: this.interval, seconds: 0}
+        });
+      }
+      
+      this.currentWorkingSecondsElapsed = 0;
     }
     
 
@@ -148,8 +158,16 @@ class App extends Component {
       )
   }
 
-  calcBarLength = () => {
-    return (303 - (303  * (this.currentWorkingSecondsElapsed / (this.currentWorkingInterval* 60)))).toString() + "px";
+  calcBarLength = () => { 
+    if(this.mode){
+      return (303 - (303  * (this.currentWorkingSecondsElapsed / (this.currentWorkingInterval * 60)))).toString() + "px";
+    }
+    return (303 - (303  * (this.currentWorkingSecondsElapsed / (this.break * 60)))).toString() + "px";
+  }
+
+  barColor = () => {
+    if(this.mode) return "#E35252";
+    return "#7EC547"
   }
  
   render() {
@@ -157,8 +175,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="gray-container">
-        <TimerBar width={this.calcBarLength()} />
-        {/* <TimerBar secondsElapsed={this.secondsElapsed} interval={this.interval} /> */}
+        <TimerBar width={this.calcBarLength()} color={this.barColor()} />
           <div className="main-flexbox">
             <div className="header">POMODORO TIMER</div>
             {this.renderMode()}
@@ -180,8 +197,6 @@ class App extends Component {
               <div className="timer">
                 {this.displayTime()}
               </div>
-              {/* <div className="timer-bar" /> */}
-              {/* <div className="timer-svg"><img src={redRec} /></div> */}
             </div>
             <div className="lower-buttons">
               <div className="lower-btn-row1">

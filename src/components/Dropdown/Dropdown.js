@@ -10,9 +10,7 @@ const Dropdown = props => {
     // })
     return(
         <div className="flex dropwdown-container">
-            
             <Button buttonName="test"/>
-
         </div>
     )
             

@@ -1,18 +1,13 @@
-import React from 'react';
-import styled, {css } from 'styled-components';
-import { defaultCipherList } from 'constants';
+import styled from 'styled-components';
 
 const TimerBar = styled.div`
 
  margin-top: 410px;
  margin-left: 32px;
- background: #E35252;
+ background: ${props => props.color};
  position: absolute;
  height: 7px;
  width: ${props => props.width}`;
-
-
-
-
+ 
 export default TimerBar; 
 

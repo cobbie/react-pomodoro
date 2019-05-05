@@ -6,7 +6,7 @@ const renderDropdown = containsDropdown => {
   if (containsDropdown) {
     return (
       <div className="dropdown-button">
-        <img src={dropdownButton} />
+        <img src={dropdownButton} alt="" />
       </div>
     );
   }
