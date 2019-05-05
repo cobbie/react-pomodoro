@@ -5,17 +5,6 @@ import Stat from "./components/Stat/Stat";
 import Dropdown from "./components/Dropdown/Dropdown";
 import TimerBar from "./components/TimerBar/TimerBar"
 
-
-// const TimerBar = styled.div`
-
-//  margin-top: 410px;
-//  margin-left: 32px;
-//  background: #E35252;
-//  position: absolute;
-//  height: 7px;
-//  width: ${props => props.width};`;
-
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +14,8 @@ class App extends Component {
     };
     this.mode = true;
     this.intervalCount = 0;
+    this.currentWorkingInterval = 2;
+    this.currentWorkingSecondsElapsed = 0;
     this.interval = 2;
     this.break = 5;
     this.seconds = 0;
@@ -37,8 +28,17 @@ class App extends Component {
 
   startTimer = () => {this.setState({running: true})};
   pauseTimer = () => {this.setState({running: false});};
-  restartTime = () => {this.setState({time: {minutes: this.interval, seconds: 0}})};
-  stopTime = () => {this.setState({running: false, time: {minutes: this.interval, seconds: 0}});};
+  restartTime = () => {
+    this.setState({time: {minutes: this.interval, seconds: 0}});
+    this.currentWorkingInterval = this.interval;
+    this.currentWorkingSecondsElapsed = 0;
+};
+  stopTime = () => {
+    this.setState({running: false, time: {minutes: this.interval, seconds: 0}});
+    this.currentWorkingInterval = this.interval
+    this.currentWorkingSecondsElapsed = 0;
+
+  };
 
   setInterval = () => {
     const newInterval = prompt("Set new interval time (mins): ")
@@ -55,6 +55,7 @@ class App extends Component {
     if (this.state.running) {
       this.timerID = setInterval(() => this.tick(), 1000);
       this.secondsElapsed += 1;
+      this.currentWorkingSecondsElapsed += 1;
         if(this.minutes===60){
           this.hoursElapsed +=1;
           this.minutesElapsed = 0;
@@ -77,10 +78,6 @@ class App extends Component {
       this.mode=false;
     }
     
-
-  }
-
-  componentDidMount =() =>{
 
   }
 
@@ -112,8 +109,8 @@ class App extends Component {
 
   displayTime = () => {
     return <span>{
-      this.state.time.minutes < 10 ? "0" + this.state.time.minutes.toString() : this.state.time.minutes
-    }:
+      this.state.time.minutes < 10 ? "0" + this.state.time.minutes.toString() : this.state.time.minutes}
+      :
     {
       this.state.time.seconds < 10 ? "0" + this.state.time.seconds.toString(): this.state.time.seconds}
       </span>};
@@ -152,7 +149,7 @@ class App extends Component {
   }
 
   calcBarLength = () => {
-    return (303 - (303  * (this.secondsElapsed / (this.interval* 60)))).toString() + "px";
+    return (303 - (303  * (this.currentWorkingSecondsElapsed / (this.currentWorkingInterval* 60)))).toString() + "px";
   }
  
   render() {
