@@ -17,6 +17,7 @@ class App extends Component {
     this.currentWorkingInterval = 1;
     this.currentWorkingSecondsElapsed = 0;
     this.interval = 1;
+    this.currentWorkingBreakTime = 5;
     this.break = 1;
     this.seconds = 0;
     this.timerID = 0;
@@ -35,7 +36,7 @@ class App extends Component {
 };
   stopTime = () => {
     this.setState({running: false, time: {minutes: this.interval, seconds: 0}});
-    this.currentWorkingInterval = this.interval
+    this.currentWorkingInterval = this.interval;
     this.currentWorkingSecondsElapsed = 0;
 
   };
@@ -71,6 +72,8 @@ class App extends Component {
   componentWillUpdate = () => {
     clearInterval(this.timerID);
     if(this.state.time.seconds===0 && this.state.time.minutes===0){
+      this.currentWorkingInterval = this.interval;
+      this.currentWorkingBreak = this.break;
       if (this.mode){
         this.intervalCount += 1;
         this.setState({
@@ -148,7 +151,6 @@ class App extends Component {
   };
 
   renderDropdown = bool => {
-    console.log("asdfg");
     return <Dropdown intervalTime={bool} />;
   };
 
@@ -162,7 +164,7 @@ class App extends Component {
     if(this.mode){
       return (303 - (303  * (this.currentWorkingSecondsElapsed / (this.currentWorkingInterval * 60)))).toString() + "px";
     }
-    return (303 - (303  * (this.currentWorkingSecondsElapsed / (this.break * 60)))).toString() + "px";
+    return (303 - (303  * (this.currentWorkingSecondsElapsed / (this.currentWorkingBreak * 60)))).toString() + "px";
   }
 
   barColor = () => {
