@@ -38,6 +38,7 @@ class App extends Component {
     this.setState({running: false, time: {minutes: this.interval, seconds: 0}});
     this.currentWorkingInterval = this.interval;
     this.currentWorkingSecondsElapsed = 0;
+    this.mode=true;
 
   };
 
@@ -54,7 +55,7 @@ class App extends Component {
 
   componentDidUpdate = () => {
     if (this.state.running) {
-      this.timerID = setInterval(() => this.tick(), 100);
+      this.timerID = setInterval(() => this.tick(), 1000);
       this.secondsElapsed += 1;
       this.currentWorkingSecondsElapsed += 1;
         if(this.minutes===60){
@@ -224,7 +225,7 @@ class App extends Component {
             </div>
             <div className="stats">
               <Stat statName="Intervals Completed" stat={this.intervalCount} />
-              <Stat statName="Total Working Time" stat={this.timeElapsed} />
+              {/* <Stat statName="Total Working Time" stat={this.timeElapsed} /> */}
             </div>
           </div>
         </div>
