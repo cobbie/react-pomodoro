@@ -9,7 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: { minutes: 1, seconds: 0 },
+      time: { minutes: 25, seconds: 0 },
       running: false,
     };
     this.mode = true;
